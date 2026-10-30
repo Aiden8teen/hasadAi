@@ -492,13 +492,8 @@
         </button>
       </nav>
 
-      <!-- Right Controls: Compact Online Indicator + Language Pill -->
+      <!-- Right Controls: Language Selector & Sync Badge -->
       <div class="flex items-center gap-1.5 shrink-0">
-        <button id="toggleOfflineSimBtn" onclick="window.toggleOfflineSimulation()" class="btn-pill-white !py-1 !px-2.5 !min-h-[30px] !text-[11px]" title="Network Simulation">
-          <span id="connDot" class="w-2 h-2 rounded-full bg-[#07503f] inline-block"></span>
-          <span id="connText" class="hidden sm:inline" data-i18n="online_badge">Online</span>
-        </button>
-
         <button id="syncQueueBadge" onclick="window.flushOfflineQueue()" style="background-color: var(--color-vivid-lime); color: var(--color-charcoal);" class="hidden rounded-full px-2 py-0.5 text-[11px] font-semibold flex items-center gap-1 cursor-pointer">
           <svg class="w-3 h-3 stroke-current" fill="none" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>
           <span id="syncQueueCount">0</span>

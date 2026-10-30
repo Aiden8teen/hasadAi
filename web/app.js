@@ -1785,14 +1785,16 @@ window.toggleOfflineSimulation = function () {
   state.offlineSim = !state.offlineSim;
   const dot = document.getElementById('connDot');
   const txt = document.getElementById('connText');
-  if (state.offlineSim) {
-    dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-600 inline-block';
-    txt.textContent = 'Offline (Queueing)';
-  } else {
-    dot.className = 'w-2.5 h-2.5 rounded-full bg-[#07503f] inline-block';
-    txt.textContent = 'Online';
-    if (state.offlineQueue.length > 0) {
-      window.flushOfflineQueue();
+  if (dot && txt) {
+    if (state.offlineSim) {
+      dot.className = 'w-2.5 h-2.5 rounded-full bg-amber-600 inline-block';
+      txt.textContent = 'Offline (Queueing)';
+    } else {
+      dot.className = 'w-2.5 h-2.5 rounded-full bg-[#07503f] inline-block';
+      txt.textContent = 'Online';
+      if (state.offlineQueue.length > 0) {
+        window.flushOfflineQueue();
+      }
     }
   }
 };
