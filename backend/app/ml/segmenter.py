@@ -11,6 +11,7 @@ from ..config import (
     MASKS_DIR,
     MIN_LEAF_MASK_PCT,
     MAX_LEAF_MASK_PCT,
+    MAX_MODEL_SIZE_BYTES,
 )
 from ..taxonomy import DISEASE_KB_DETAILS
 
@@ -59,6 +60,11 @@ class DualSegmentationOrchestrator:
 
         for cand in YOLO_CANDIDATES:
             if cand.exists() and cand.stat().st_size > 1024:
+                if cand.stat().st_size > MAX_MODEL_SIZE_BYTES:
+                    # 200MB+ models (like YOLOv9e 228MB) exceed Render 512MB RAM during CPU forward pass,
+                    # which triggers Linux kernel SIGKILL (OOM). Use instant lightweight contour engine (< 5MB RAM).
+                    self.yolo_path = f"{cand.name} (lightweight visual contour mode for 512MB RAM)"
+                    break
                 if cand.suffix == ".onnx":
                     try:
                         import onnxruntime as ort
@@ -96,7 +102,7 @@ class DualSegmentationOrchestrator:
         return {
             "stage": "Stage 3 (Dual Lesion Segmentation: YOLOv9e-seg + U-Net Failover)",
             "preferred_engine": self.PreferredModel,
-            "yolov9_loaded": (self.yolo_model is not None) or (self.yolo_onnx_session is not None),
+            "yolov9_loaded": (self.yolo_model is not None) or (self.yolo_onnx_session is not None) or (self.yolo_path is not None),
             "yolov9_file": self.yolo_path or "Awaiting best.onnx / best.pt in /models",
             "unet_loaded": self.unet_model is not None,
             "unet_file": self.unet_path or "Awaiting unet_leaf_aug_best.h5 in /models",

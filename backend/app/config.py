@@ -37,6 +37,10 @@ GOOGLE_API_KEY = os.environ.get(
 )
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 
+# In memory-constrained containers (< 512MB RAM on Render Free Tier),
+# avoid loading 200MB+ monolithic models into memory to prevent Linux kernel SIGKILL (OOM).
+MAX_MODEL_SIZE_BYTES = int(os.environ.get("MAX_MODEL_SIZE_BYTES", 60 * 1024 * 1024))  # 60 MB limit
+
 # Expected drop-in model files in /models (Prioritize lightweight TFLite and ONNX runtimes for < 512MB RAM cloud hosting)
 EFFICIENTNET_CANDIDATES = [
     MODELS_DIR / "plant_disease_efficientnet_fp16.tflite",

@@ -162,144 +162,151 @@ async def create_diagnosis(
     locale: Optional[str] = Form("en"),
     idempotency_key: Optional[str] = Header(None, alias="Idempotency-Key"),
 ) -> Dict[str, Any]:
-    conn = get_conn()
-    cur = conn.cursor()
-    if idempotency_key:
-        cur.execute("SELECT response_json FROM idempotency_keys WHERE key = ?", (idempotency_key,))
-        existing = cur.fetchone()
-        if existing:
+    try:
+        conn = get_conn()
+        cur = conn.cursor()
+        if idempotency_key:
+            cur.execute("SELECT response_json FROM idempotency_keys WHERE key = ?", (idempotency_key,))
+            existing = cur.fetchone()
+            if existing:
+                conn.close()
+                return json.loads(existing["response_json"])
+
+        raw_bytes = await image.read()
+        if not raw_bytes:
             conn.close()
-            return json.loads(existing["response_json"])
+            raise HTTPException(status_code=400, detail="Empty image file uploaded.")
 
-    raw_bytes = await image.read()
-    if not raw_bytes:
-        conn.close()
-        raise HTTPException(status_code=400, detail="Empty image file uploaded.")
+        sha256_hash = hashlib.sha256(raw_bytes).hexdigest()
+        np_arr = np.frombuffer(raw_bytes, np.uint8)
+        img_bgr = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+        if img_bgr is None:
+            conn.close()
+            raise HTTPException(status_code=415, detail="Unsupported or corrupted image file.")
 
-    sha256_hash = hashlib.sha256(raw_bytes).hexdigest()
-    np_arr = np.frombuffer(raw_bytes, np.uint8)
-    img_bgr = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-    if img_bgr is None:
-        conn.close()
-        raise HTTPException(status_code=415, detail="Unsupported or corrupted image file.")
+        h, w = img_bgr.shape[:2]
+        if max(h, w) > 1280:
+            scale = 1280.0 / max(h, w)
+            img_bgr = cv2.resize(img_bgr, (int(w * scale), int(h * scale)), interpolation=cv2.INTER_AREA)
 
-    h, w = img_bgr.shape[:2]
-    if max(h, w) > 1280:
-        scale = 1280.0 / max(h, w)
-        img_bgr = cv2.resize(img_bgr, (int(w * scale), int(h * scale)), interpolation=cv2.INTER_AREA)
+        diag_id = f"dg_{uuid.uuid4().hex[:10]}"
+        img_fname = f"{diag_id}_leaf.jpg"
+        img_save_path = UPLOADS_DIR / img_fname
+        cv2.imwrite(str(img_save_path), img_bgr)
+        image_url = f"/uploads/{img_fname}"
 
-    diag_id = f"dg_{uuid.uuid4().hex[:10]}"
-    img_fname = f"{diag_id}_leaf.jpg"
-    img_save_path = UPLOADS_DIR / img_fname
-    cv2.imwrite(str(img_save_path), img_bgr)
-    image_url = f"/uploads/{img_fname}"
-
-    # Stage 1 & 2: Hierarchical Crop ID + Disease Classification
-    cls_res = classifier_engine.predict_hierarchical(
-        img_bgr,
-        crop_hint=crop_hint,
-        filename_hint=image.filename or "",
-    )
-
-    crop_info = cls_res["crop"]
-    dis_info = cls_res["disease"]
-
-    # Stage 3: Dual Lesion Segmentation (YOLOv9e-seg + U-Net with automatic failover)
-    seg_res = segmenter_engine.segment_and_score(
-        diagnosis_id=diag_id,
-        img_bgr=img_bgr,
-        disease_class=dis_info["class_key"],
-        is_healthy=dis_info["is_healthy"],
-        growth_stage=growth_stage,
-    )
-
-    # Stage 4: LangChain + LangGraph 3-Node Recommendation Engine
-    rec_res = recommender_engine.generate_recommendation(
-        disease_class=dis_info["class_key"],
-        crop=crop_info["name"],
-        severity=seg_res["severity"],
-        growth_stage=growth_stage,
-        estimated_yield_loss_percent=seg_res["estimated_yield_loss_percent"],
-        infected_area_pct=seg_res["infected_area_pct"],
-        lesion_count=seg_res["lesion_count"],
-    )
-
-    status_str = "pending_crop_confirm" if crop_info["needs_confirmation"] else (
-        "needs_review" if dis_info["needs_review"] else "completed"
-    )
-    now = utcnow_iso()
-
-    cur.execute(
-        """
-        INSERT INTO diagnoses (
-            id, farmer_id, plot_id, growth_stage, image_url, image_sha256,
-            crop_id, crop_name, crop_confidence, crop_source, top3_crops_json,
-            disease_class, disease_name, disease_confidence, top3_diseases_json,
-            active_seg_model, yolo_status, unet_status, lesion_count, infected_area_pct,
-            severity, estimated_yield_loss_pct, mask_overlay_url, yolo_mask_url, unet_mask_url,
-            treatment_type, recommendation, organic_treatments_json, chemical_treatments_json,
-            recommendation_source, status, needs_review, created_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """,
-        (
-            diag_id,
-            "usr_farmer_01",
-            plot_id,
-            growth_stage,
-            image_url,
-            sha256_hash,
-            crop_info["id"],
-            crop_info["name"],
-            crop_info["confidence"],
-            crop_info["source"],
-            json.dumps(crop_info["top3_candidates"]),
-            dis_info["class_key"],
-            dis_info["name_en"],
-            dis_info["confidence"],
-            json.dumps(dis_info["top3_candidates"]),
-            seg_res["active_model"],
-            seg_res["yolo_status"],
-            seg_res["unet_status"],
-            seg_res["lesion_count"],
-            seg_res["infected_area_pct"],
-            seg_res["severity"],
-            seg_res["estimated_yield_loss_percent"],
-            seg_res["mask_overlay_url"],
-            seg_res["yolo_mask_url"],
-            seg_res["unet_mask_url"],
-            rec_res["treatment_type"],
-            rec_res["recommendation"],
-            json.dumps(rec_res["organic_treatment"]),
-            json.dumps(rec_res["chemical_treatment"]),
-            rec_res["source"],
-            status_str,
-            1 if dis_info["needs_review"] else 0,
-            now,
-        ),
-    )
-
-    payload = {
-        "id": diag_id,
-        "status": status_str,
-        "created_at": now,
-        "growth_stage": growth_stage,
-        "image_url": image_url,
-        "quality": cls_res["quality"],
-        "crop": crop_info,
-        "disease": dis_info,
-        "segmentation": seg_res,
-        "recommendation": rec_res,
-    }
-
-    if idempotency_key:
-        cur.execute(
-            "INSERT OR REPLACE INTO idempotency_keys (key, response_json, created_at) VALUES (?, ?, ?)",
-            (idempotency_key, json.dumps(payload), now),
+        # Stage 1 & 2: Hierarchical Crop ID + Disease Classification
+        cls_res = classifier_engine.predict_hierarchical(
+            img_bgr,
+            crop_hint=crop_hint,
+            filename_hint=image.filename or "",
         )
 
-    conn.commit()
-    conn.close()
-    return payload
+        crop_info = cls_res["crop"]
+        dis_info = cls_res["disease"]
+
+        # Stage 3: Dual Lesion Segmentation (YOLOv9e-seg + U-Net with automatic failover)
+        seg_res = segmenter_engine.segment_and_score(
+            diagnosis_id=diag_id,
+            img_bgr=img_bgr,
+            disease_class=dis_info["class_key"],
+            is_healthy=dis_info["is_healthy"],
+            growth_stage=growth_stage,
+        )
+
+        # Stage 4: LangChain + LangGraph 3-Node Recommendation Engine
+        rec_res = recommender_engine.generate_recommendation(
+            disease_class=dis_info["class_key"],
+            crop=crop_info["name"],
+            severity=seg_res["severity"],
+            growth_stage=growth_stage,
+            estimated_yield_loss_percent=seg_res["estimated_yield_loss_percent"],
+            infected_area_pct=seg_res["infected_area_pct"],
+            lesion_count=seg_res["lesion_count"],
+        )
+
+        status_str = "pending_crop_confirm" if crop_info["needs_confirmation"] else (
+            "needs_review" if dis_info["needs_review"] else "completed"
+        )
+        now = utcnow_iso()
+
+        cur.execute(
+            """
+            INSERT INTO diagnoses (
+                id, farmer_id, plot_id, growth_stage, image_url, image_sha256,
+                crop_id, crop_name, crop_confidence, crop_source, top3_crops_json,
+                disease_class, disease_name, disease_confidence, top3_diseases_json,
+                active_seg_model, yolo_status, unet_status, lesion_count, infected_area_pct,
+                severity, estimated_yield_loss_pct, mask_overlay_url, yolo_mask_url, unet_mask_url,
+                treatment_type, recommendation, organic_treatments_json, chemical_treatments_json,
+                recommendation_source, status, needs_review, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                diag_id,
+                "usr_farmer_01",
+                plot_id,
+                growth_stage,
+                image_url,
+                sha256_hash,
+                crop_info["id"],
+                crop_info["name"],
+                crop_info["confidence"],
+                crop_info["source"],
+                json.dumps(crop_info["top3_candidates"]),
+                dis_info["class_key"],
+                dis_info["name_en"],
+                dis_info["confidence"],
+                json.dumps(dis_info["top3_candidates"]),
+                seg_res["active_model"],
+                seg_res["yolo_status"],
+                seg_res["unet_status"],
+                seg_res["lesion_count"],
+                seg_res["infected_area_pct"],
+                seg_res["severity"],
+                seg_res["estimated_yield_loss_percent"],
+                seg_res["mask_overlay_url"],
+                seg_res["yolo_mask_url"],
+                seg_res["unet_mask_url"],
+                rec_res["treatment_type"],
+                rec_res["recommendation"],
+                json.dumps(rec_res["organic_treatment"]),
+                json.dumps(rec_res["chemical_treatment"]),
+                rec_res["source"],
+                status_str,
+                1 if dis_info["needs_review"] else 0,
+                now,
+            ),
+        )
+
+        payload = {
+            "id": diag_id,
+            "status": status_str,
+            "created_at": now,
+            "growth_stage": growth_stage,
+            "image_url": image_url,
+            "quality": cls_res["quality"],
+            "crop": crop_info,
+            "disease": dis_info,
+            "segmentation": seg_res,
+            "recommendation": rec_res,
+        }
+
+        if idempotency_key:
+            cur.execute(
+                "INSERT OR REPLACE INTO idempotency_keys (key, response_json, created_at) VALUES (?, ?, ?)",
+                (idempotency_key, json.dumps(payload), now),
+            )
+
+        conn.commit()
+        conn.close()
+        return payload
+    except HTTPException:
+        raise
+    except Exception as exc:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=f"Diagnostic error: {str(exc)}")
 
 
 @app.post("/api/v1/diagnoses/{diag_id}/confirm-crop")
