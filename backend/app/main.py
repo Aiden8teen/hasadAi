@@ -786,29 +786,42 @@ def sync_offline_mutations(req: SyncBatchRequest) -> Dict[str, Any]:
 
 
 # ==============================================================================
-# 7. Serve Frontend PWA Static Assets
+# 7. Health Check & PWA Static Assets (Supports both GET and HEAD for Uptime Monitoring)
 # ==============================================================================
+@app.get("/health")
+@app.head("/health")
+@app.get("/healthz")
+@app.head("/healthz")
+def health_check():
+    return {"status": "healthy", "service": "hassad-ai", "version": "2.2.0"}
+
+
 @app.get("/")
+@app.head("/")
 def serve_pwa_index():
     return FileResponse(str(WEB_DIR / "index.html"))
 
 
 @app.get("/app.js")
+@app.head("/app.js")
 def serve_pwa_js():
     return FileResponse(str(WEB_DIR / "app.js"), media_type="application/javascript")
 
 
 @app.get("/sw.js")
+@app.head("/sw.js")
 def serve_pwa_sw():
     return FileResponse(str(WEB_DIR / "sw.js"), media_type="application/javascript")
 
 
 @app.get("/manifest.webmanifest")
+@app.head("/manifest.webmanifest")
 def serve_pwa_manifest():
     return FileResponse(str(WEB_DIR / "manifest.webmanifest"), media_type="application/manifest+json")
 
 
 @app.get("/favicon.ico")
+@app.head("/favicon.ico")
 def serve_favicon_ico():
     ico = WEB_DIR / "favicon.ico"
     if ico.exists():
@@ -820,6 +833,7 @@ def serve_favicon_ico():
 
 
 @app.get("/favicon.svg")
+@app.head("/favicon.svg")
 def serve_favicon_svg():
     fav = WEB_DIR / "favicon.svg"
     if fav.exists():
@@ -828,32 +842,39 @@ def serve_favicon_svg():
 
 
 @app.get("/favicon-32x32.png")
+@app.head("/favicon-32x32.png")
 def serve_fav_32():
     return FileResponse(str(WEB_DIR / "favicon-32x32.png"), media_type="image/png")
 
 
 @app.get("/favicon-16x16.png")
+@app.head("/favicon-16x16.png")
 def serve_fav_16():
     return FileResponse(str(WEB_DIR / "favicon-16x16.png"), media_type="image/png")
 
 
 @app.get("/apple-touch-icon.png")
+@app.head("/apple-touch-icon.png")
 def serve_apple_touch():
     return FileResponse(str(WEB_DIR / "apple-touch-icon.png"), media_type="image/png")
 
 
 @app.get("/icon-192.png")
+@app.head("/icon-192.png")
 def serve_icon_192():
     return FileResponse(str(WEB_DIR / "icon-192.png"), media_type="image/png")
 
 
 @app.get("/icon-512.png")
+@app.head("/icon-512.png")
 def serve_icon_512():
     return FileResponse(str(WEB_DIR / "icon-512.png"), media_type="image/png")
 
 
 @app.get("/images.jpeg")
+@app.head("/images.jpeg")
 @app.get("/images.jpg")
+@app.head("/images.jpg")
 def serve_root_images():
     img = WEB_DIR / "samples" / "images.jpeg"
     if img.exists():
