@@ -1,0 +1,192 @@
+{
+  "Apple___Apple_scab": {
+    "crop": "Apple",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Apply organic sulfur or copper-based fungicide before rain; rake and destroy fallen scabby leaves; prune canopy to improve airflow."
+  },
+  "Apple___Black_rot": {
+    "crop": "Apple",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Prune out dead wood and mummified fruit; apply captan or copper spray from green-tip through fruit set; sanitize pruning shears."
+  },
+  "Apple___Cedar_apple_rust": {
+    "crop": "Apple",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Remove nearby juniper/cedar galls if feasible; spray myclobutanil or sulfur at pink-bud and petal-fall stages."
+  },
+  "Apple___healthy": {
+    "crop": "Apple",
+    "pathogen_type": "healthy",
+    "base_recommendation": "Leaf is healthy. Maintain balanced NPK fertilization, drip irrigation, and routine dormant-season pruning."
+  },
+  "Blueberry___healthy": {
+    "crop": "Blueberry",
+    "pathogen_type": "healthy",
+    "base_recommendation": "Leaf is healthy. Maintain acidic soil pH (4.5-5.5), pine-bark mulch, and consistent moisture."
+  },
+  "Cherry_(including_sour)___Powdery_mildew": {
+    "crop": "Cherry (including sour)",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Apply potassium bicarbonate, neem oil, or wettable sulfur at first white powdery signs; thin dense shoots to reduce humidity."
+  },
+  "Cherry_(including_sour)___healthy": {
+    "crop": "Cherry (including sour)",
+    "pathogen_type": "healthy",
+    "base_recommendation": "Leaf is healthy. Continue preventive orchard sanitation and balanced irrigation."
+  },
+  "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot": {
+    "crop": "Corn (maize)",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Rotate away from corn for 1-2 seasons; manage crop residue; apply strobilurin or triazole fungicide if lesions reach ear leaf before tasseling."
+  },
+  "Corn_(maize)___Common_rust_": {
+    "crop": "Corn (maize)",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Monitor pustules on lower leaves; apply foliar fungicide (azoxystrobin/propiconazole) if rust spreads rapidly prior to silking."
+  },
+  "Corn_(maize)___Northern_Leaf_Blight": {
+    "crop": "Corn (maize)",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Use resistant hybrids; rotate crops; apply foliar fungicide at tasseling if cigar-shaped lesions cover >5% of upper leaves."
+  },
+  "Corn_(maize)___healthy": {
+    "crop": "Corn (maize)",
+    "pathogen_type": "healthy",
+    "base_recommendation": "Leaf is healthy. Ensure adequate nitrogen side-dressing during V6-V8 vegetative growth."
+  },
+  "Grape___Black_rot": {
+    "crop": "Grape",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Remove mummified berries and infected tendrils during winter pruning; apply mancozeb, myclobutanil, or copper from budbreak to 4 weeks post-bloom."
+  },
+  "Grape___Esca_(Black_Measles)": {
+    "crop": "Grape",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Prune during dry weather and seal large pruning wounds with trichoderma or wound paste; remove severely declined cordons."
+  },
+  "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)": {
+    "crop": "Grape",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Improve canopy ventilation via leaf pulling; apply copper oxychloride or Bordeaux mixture after rainfall."
+  },
+  "Grape___healthy": {
+    "crop": "Grape",
+    "pathogen_type": "healthy",
+    "base_recommendation": "Leaf is healthy. Maintain canopy training and monitor humidity during berry development."
+  },
+  "Orange___Haunglongbing_(Citrus_greening)": {
+    "crop": "Orange",
+    "pathogen_type": "bacterial",
+    "base_recommendation": "Control Asian citrus psyllid vectors immediately using horticultural mineral oil or approved insecticides; remove confirmed HLB-infected trees to protect the grove and use certified disease-free nursery stock."
+  },
+  "Peach___Bacterial_spot": {
+    "crop": "Peach",
+    "pathogen_type": "bacterial",
+    "base_recommendation": "Apply fixed copper sprays at leaf drop and pre-bloom; avoid overhead irrigation and excessive nitrogen that produces tender susceptible shoots."
+  },
+  "Peach___healthy": {
+    "crop": "Peach",
+    "pathogen_type": "healthy",
+    "base_recommendation": "Leaf is healthy. Maintain open-center pruning and balanced soil moisture."
+  },
+  "Pepper,_bell___Bacterial_spot": {
+    "crop": "Pepper, bell",
+    "pathogen_type": "bacterial",
+    "base_recommendation": "Spray fixed copper + mancozeb or biological Bacillus subtilis; avoid working in wet fields; rotate with non-solanaceous crops for 2-3 years."
+  },
+  "Pepper,_bell___healthy": {
+    "crop": "Pepper, bell",
+    "pathogen_type": "healthy",
+    "base_recommendation": "Leaf is healthy. Maintain calcium nutrition to prevent blossom-end rot and use drip irrigation."
+  },
+  "Potato___Early_blight": {
+    "crop": "Potato",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Remove heavily blighted lower leaves; apply copper fungicide, chlorothalonil, or azoxystrobin; maintain adequate potassium and nitrogen levels."
+  },
+  "Potato___Late_blight": {
+    "crop": "Potato",
+    "pathogen_type": "oomycete",
+    "base_recommendation": "URGENT: Destroy infected haulms immediately to prevent tuber rot; spray cymoxanil, mandipropamid, or copper oxychloride; hill soil around tubers."
+  },
+  "Potato___healthy": {
+    "crop": "Potato",
+    "pathogen_type": "healthy",
+    "base_recommendation": "Leaf is healthy. Continue hilling and preventive monitoring during cool, humid weather."
+  },
+  "Raspberry___healthy": {
+    "crop": "Raspberry",
+    "pathogen_type": "healthy",
+    "base_recommendation": "Leaf is healthy. Prune out spent floricanes after harvest to maintain cane airflow."
+  },
+  "Soybean___healthy": {
+    "crop": "Soybean",
+    "pathogen_type": "healthy",
+    "base_recommendation": "Leaf is healthy. Monitor nodulation and scout for defoliating insects during pod fill."
+  },
+  "Squash___Powdery_mildew": {
+    "crop": "Squash",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Spray potassium bicarbonate, neem oil, or sulfur on both upper and lower leaf surfaces; water at the root zone only."
+  },
+  "Strawberry___Leaf_scorch": {
+    "crop": "Strawberry",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Remove and burn old infected leaves after harvest renovation; improve bed drainage and apply copper or captan if lesions expand."
+  },
+  "Strawberry___healthy": {
+    "crop": "Strawberry",
+    "pathogen_type": "healthy",
+    "base_recommendation": "Leaf is healthy. Keep straw mulch clean and use drip irrigation to protect fruit."
+  },
+  "Tomato___Bacterial_spot": {
+    "crop": "Tomato",
+    "pathogen_type": "bacterial",
+    "base_recommendation": "Apply copper hydroxide + mancozeb or biological bacteriophages; prune lower leaves to stop soil splash; never handle wet plants."
+  },
+  "Tomato___Early_blight": {
+    "crop": "Tomato",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Prune bottom leaves showing bullseye target rings; mulch soil with straw; spray copper fungicide, Bacillus amyloliquefaciens, or chlorothalonil."
+  },
+  "Tomato___Late_blight": {
+    "crop": "Tomato",
+    "pathogen_type": "oomycete",
+    "base_recommendation": "URGENT: Bag and remove severely blighted plants immediately; spray healthy neighbors with copper oxychloride or mandipropamid; avoid overhead watering."
+  },
+  "Tomato___Leaf_Mold": {
+    "crop": "Tomato",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Ventilate greenhouse/tunnel to keep relative humidity <85%; prune lower foliage; apply potassium bicarbonate, copper, or chlorothalonil."
+  },
+  "Tomato___Septoria_leaf_spot": {
+    "crop": "Tomato",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Remove infected basal leaves; stake plants for airflow; apply copper or mancozeb spray every 7-10 days during wet weather."
+  },
+  "Tomato___Spider_mites Two-spotted_spider_mite": {
+    "crop": "Tomato",
+    "pathogen_type": "pest",
+    "base_recommendation": "Spray undersides of leaves with neem oil, insecticidal soap, or abamectin; release predatory mites (Phytoseiulus persimilis) and reduce dust/drought stress."
+  },
+  "Tomato___Target_Spot": {
+    "crop": "Tomato",
+    "pathogen_type": "fungal",
+    "base_recommendation": "Improve canopy aeration; avoid wetting foliage; apply azoxystrobin, difenoconazole, or copper fungicide."
+  },
+  "Tomato___Tomato_Yellow_Leaf_Curl_Virus": {
+    "crop": "Tomato",
+    "pathogen_type": "viral",
+    "base_recommendation": "Uproot and destroy stunted yellow-curled plants; control whitefly (Bemisia tabaci) vectors with yellow sticky traps, fine insect netting, and neem/imidacloprid."
+  },
+  "Tomato___Tomato_mosaic_virus": {
+    "crop": "Tomato",
+    "pathogen_type": "viral",
+    "base_recommendation": "Curative - remove and destroy infected plants; disinfect tools and hands with 10% bleach or non-fat milk solution; use certified virus-free seed or transplants."
+  },
+  "Tomato___healthy": {
+    "crop": "Tomato",
+    "pathogen_type": "healthy",
+    "base_recommendation": "Leaf is healthy. Maintain staking, sucker pruning, and consistent drip irrigation with calcium support."
+  }
+}

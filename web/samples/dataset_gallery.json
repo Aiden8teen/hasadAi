@@ -1,0 +1,344 @@
+[
+  {
+    "class_key": "Apple___Apple_scab",
+    "crop_name": "Apple",
+    "disease_name": "Apple scab",
+    "is_healthy": false,
+    "image_url": "/samples/Apple___Apple_scab.jpg",
+    "lesion_count": 2,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00158.jpg)"
+  },
+  {
+    "class_key": "Apple___Black_rot",
+    "crop_name": "Apple",
+    "disease_name": "Black rot",
+    "is_healthy": false,
+    "image_url": "/samples/Apple___Black_rot.jpg",
+    "lesion_count": 2,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (train/images/00028.jpg)"
+  },
+  {
+    "class_key": "Apple___Cedar_apple_rust",
+    "crop_name": "Apple",
+    "disease_name": "Cedar apple rust",
+    "is_healthy": false,
+    "image_url": "/samples/Apple___Cedar_apple_rust.jpg",
+    "lesion_count": 5,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00039.jpg)"
+  },
+  {
+    "class_key": "Apple___healthy",
+    "crop_name": "Apple",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "image_url": "/samples/Apple___healthy.jpg",
+    "lesion_count": 0,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00248.jpg)"
+  },
+  {
+    "class_key": "Blueberry___healthy",
+    "crop_name": "Blueberry",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "image_url": "/samples/Blueberry___healthy.jpg",
+    "lesion_count": 0,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (train/images/00020.jpg)"
+  },
+  {
+    "class_key": "Cherry_(including_sour)___Powdery_mildew",
+    "crop_name": "Cherry (including sour)",
+    "disease_name": "Powdery mildew",
+    "is_healthy": false,
+    "image_url": "/samples/Cherry_(including_sour)___Powdery_mildew.jpg",
+    "lesion_count": 3,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (train/images/00154.jpg)"
+  },
+  {
+    "class_key": "Cherry_(including_sour)___healthy",
+    "crop_name": "Cherry (including sour)",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "image_url": "/samples/Cherry_(including_sour)___healthy.jpg",
+    "lesion_count": 0,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00284.jpg)"
+  },
+  {
+    "class_key": "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot",
+    "crop_name": "Corn (maize)",
+    "disease_name": "Cercospora leaf spot Gray leaf spot",
+    "is_healthy": false,
+    "image_url": "/samples/Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot.jpg",
+    "lesion_count": 14,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00167.jpg)"
+  },
+  {
+    "class_key": "Corn_(maize)___Common_rust_",
+    "crop_name": "Corn (maize)",
+    "disease_name": "Common rust",
+    "is_healthy": false,
+    "image_url": "/samples/Corn_(maize)___Common_rust_.jpg",
+    "lesion_count": 3,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (train/images/00189.jpg)"
+  },
+  {
+    "class_key": "Corn_(maize)___Northern_Leaf_Blight",
+    "crop_name": "Corn (maize)",
+    "disease_name": "Northern Leaf Blight",
+    "is_healthy": false,
+    "image_url": "/samples/Corn_(maize)___Northern_Leaf_Blight.jpg",
+    "lesion_count": 1,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00104.jpg)"
+  },
+  {
+    "class_key": "Corn_(maize)___healthy",
+    "crop_name": "Corn (maize)",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "image_url": "/samples/Corn_(maize)___healthy.jpg",
+    "lesion_count": 0,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (train/images/00003.jpg)"
+  },
+  {
+    "class_key": "Grape___Black_rot",
+    "crop_name": "Grape",
+    "disease_name": "Black rot",
+    "is_healthy": false,
+    "image_url": "/samples/Grape___Black_rot.jpg",
+    "lesion_count": 2,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00208.jpg)"
+  },
+  {
+    "class_key": "Grape___Esca_(Black_Measles)",
+    "crop_name": "Grape",
+    "disease_name": "Esca (Black Measles)",
+    "is_healthy": false,
+    "image_url": "/samples/Grape___Esca_(Black_Measles).jpg",
+    "lesion_count": 2,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (train/images/00207.jpg)"
+  },
+  {
+    "class_key": "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
+    "crop_name": "Grape",
+    "disease_name": "Leaf blight (Isariopsis Leaf Spot)",
+    "is_healthy": false,
+    "image_url": "/samples/Grape___Leaf_blight_(Isariopsis_Leaf_Spot).jpg",
+    "lesion_count": 2,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00073.jpg)"
+  },
+  {
+    "class_key": "Grape___healthy",
+    "crop_name": "Grape",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "image_url": "/samples/Grape___healthy.jpg",
+    "lesion_count": 0,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00231.jpg)"
+  },
+  {
+    "class_key": "Orange___Haunglongbing_(Citrus_greening)",
+    "crop_name": "Orange",
+    "disease_name": "Haunglongbing (Citrus greening)",
+    "is_healthy": false,
+    "image_url": "/samples/Orange___Haunglongbing_(Citrus_greening).jpg",
+    "lesion_count": 8,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00072.jpg)"
+  },
+  {
+    "class_key": "Peach___Bacterial_spot",
+    "crop_name": "Peach",
+    "disease_name": "Bacterial spot",
+    "is_healthy": false,
+    "image_url": "/samples/Peach___Bacterial_spot.jpg",
+    "lesion_count": 6,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (train/images/00053.jpg)"
+  },
+  {
+    "class_key": "Peach___healthy",
+    "crop_name": "Peach",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "image_url": "/samples/Peach___healthy.jpg",
+    "lesion_count": 0,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00250.jpg)"
+  },
+  {
+    "class_key": "Pepper,_bell___Bacterial_spot",
+    "crop_name": "Pepper, bell",
+    "disease_name": "Bacterial spot",
+    "is_healthy": false,
+    "image_url": "/samples/Pepper,_bell___Bacterial_spot.jpg",
+    "lesion_count": 8,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00006.jpg)"
+  },
+  {
+    "class_key": "Pepper,_bell___healthy",
+    "crop_name": "Pepper, bell",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "image_url": "/samples/Pepper,_bell___healthy.jpg",
+    "lesion_count": 0,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00199.jpg)"
+  },
+  {
+    "class_key": "Potato___Early_blight",
+    "crop_name": "Potato",
+    "disease_name": "Early blight",
+    "is_healthy": false,
+    "image_url": "/samples/Potato___Early_blight.jpg",
+    "lesion_count": 7,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00076.jpg)"
+  },
+  {
+    "class_key": "Potato___Late_blight",
+    "crop_name": "Potato",
+    "disease_name": "Late blight",
+    "is_healthy": false,
+    "image_url": "/samples/Potato___Late_blight.jpg",
+    "lesion_count": 8,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (train/images/00027.jpg)"
+  },
+  {
+    "class_key": "Potato___healthy",
+    "crop_name": "Potato",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "image_url": "/samples/Potato___healthy.jpg",
+    "lesion_count": 0,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00081.jpg)"
+  },
+  {
+    "class_key": "Raspberry___healthy",
+    "crop_name": "Raspberry",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "image_url": "/samples/Raspberry___healthy.jpg",
+    "lesion_count": 0,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (train/images/00096.jpg)"
+  },
+  {
+    "class_key": "Soybean___healthy",
+    "crop_name": "Soybean",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "image_url": "/samples/Soybean___healthy.jpg",
+    "lesion_count": 0,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (train/images/00168.jpg)"
+  },
+  {
+    "class_key": "Squash___Powdery_mildew",
+    "crop_name": "Squash",
+    "disease_name": "Powdery mildew",
+    "is_healthy": false,
+    "image_url": "/samples/Squash___Powdery_mildew.jpg",
+    "lesion_count": 3,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (train/images/00216.jpg)"
+  },
+  {
+    "class_key": "Strawberry___Leaf_scorch",
+    "crop_name": "Strawberry",
+    "disease_name": "Leaf scorch",
+    "is_healthy": false,
+    "image_url": "/samples/Strawberry___Leaf_scorch.jpg",
+    "lesion_count": 1,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (train/images/00139.jpg)"
+  },
+  {
+    "class_key": "Strawberry___healthy",
+    "crop_name": "Strawberry",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "image_url": "/samples/Strawberry___healthy.jpg",
+    "lesion_count": 0,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00082.jpg)"
+  },
+  {
+    "class_key": "Tomato___Bacterial_spot",
+    "crop_name": "Tomato",
+    "disease_name": "Bacterial spot",
+    "is_healthy": false,
+    "image_url": "/samples/Tomato___Bacterial_spot.jpg",
+    "lesion_count": 12,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00137.jpg)"
+  },
+  {
+    "class_key": "Tomato___Early_blight",
+    "crop_name": "Tomato",
+    "disease_name": "Early blight",
+    "is_healthy": false,
+    "image_url": "/samples/Tomato___Early_blight.jpg",
+    "lesion_count": 7,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00029.jpg)"
+  },
+  {
+    "class_key": "Tomato___Late_blight",
+    "crop_name": "Tomato",
+    "disease_name": "Late blight",
+    "is_healthy": false,
+    "image_url": "/samples/Tomato___Late_blight.jpg",
+    "lesion_count": 21,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (train/images/00160.jpg)"
+  },
+  {
+    "class_key": "Tomato___Leaf_Mold",
+    "crop_name": "Tomato",
+    "disease_name": "Leaf Mold",
+    "is_healthy": false,
+    "image_url": "/samples/Tomato___Leaf_Mold.jpg",
+    "lesion_count": 8,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00009.jpg)"
+  },
+  {
+    "class_key": "Tomato___Septoria_leaf_spot",
+    "crop_name": "Tomato",
+    "disease_name": "Septoria leaf spot",
+    "is_healthy": false,
+    "image_url": "/samples/Tomato___Septoria_leaf_spot.jpg",
+    "lesion_count": 16,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00163.jpg)"
+  },
+  {
+    "class_key": "Tomato___Spider_mites Two-spotted_spider_mite",
+    "crop_name": "Tomato",
+    "disease_name": "Spider mites Two-spotted spider mite",
+    "is_healthy": false,
+    "image_url": "/samples/Tomato___Spider_mites Two-spotted_spider_mite.jpg",
+    "lesion_count": 2,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00086.jpg)"
+  },
+  {
+    "class_key": "Tomato___Target_Spot",
+    "crop_name": "Tomato",
+    "disease_name": "Target Spot",
+    "is_healthy": false,
+    "image_url": "/samples/Tomato___Target_Spot.jpg",
+    "lesion_count": 19,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00002.jpg)"
+  },
+  {
+    "class_key": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+    "crop_name": "Tomato",
+    "disease_name": "Tomato Yellow Leaf Curl Virus",
+    "is_healthy": false,
+    "image_url": "/samples/Tomato___Tomato_Yellow_Leaf_Curl_Virus.jpg",
+    "lesion_count": 1,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00011.jpg)"
+  },
+  {
+    "class_key": "Tomato___Tomato_mosaic_virus",
+    "crop_name": "Tomato",
+    "disease_name": "Tomato mosaic virus",
+    "is_healthy": false,
+    "image_url": "/samples/Tomato___Tomato_mosaic_virus.jpg",
+    "lesion_count": 13,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00010.jpg)"
+  },
+  {
+    "class_key": "Tomato___healthy",
+    "crop_name": "Tomato",
+    "disease_name": "healthy",
+    "is_healthy": true,
+    "image_url": "/samples/Tomato___healthy.jpg",
+    "lesion_count": 0,
+    "source_dataset": "PlantDoc / Kaggle Leaf Disease (val/images/00030.jpg)"
+  }
+]

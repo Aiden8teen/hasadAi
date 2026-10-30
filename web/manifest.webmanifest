@@ -1,0 +1,11 @@
+{
+  "name": "Hassad AI (حصاد) — Pastoral Editorial Agronomy & 4-Stage Crop Doctor",
+  "short_name": "Hassad AI",
+  "description": "Offline-first 4-stage AI Crop Doctor (EfficientNetB0, YOLOv9e-seg, U-Net, LangGraph Gemini Agent) and regional harvest surplus radar for Tipaza and Mitidja, Algeria.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f1efdf",
+  "theme_color": "#07503f",
+  "lang": "en",
+  "dir": "auto"
+}

@@ -1,0 +1,40 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+env/
+venv/
+ENV/
+.venv/
+
+# Environment Variables & Secrets
+.env
+backend/.env
+*.env.local
+
+# Database & Runtime Data
+*.db
+*.sqlite3
+backend/data/*.db
+backend/data/uploads/*
+backend/data/masks/*
+!backend/data/uploads/.gitkeep
+!backend/data/masks/.gitkeep
+
+# macOS & OS files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+Thumbs.db
+
+# Logs & Temporary Files
+*.log
+*.tmp
+.cache/
+.playwright-mcp/
+scratch/
