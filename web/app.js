@@ -664,6 +664,7 @@ window.setLocale = function (loc) {
 };
 
 window.switchTab = function (tabName, shouldScroll = true) {
+  if (tabName === 'doctor') tabName = 'diagnose';
   state.activeTab = tabName;
   ['home', 'diagnose', 'chat', 'encyclopedia', 'radar', 'agronomist'].forEach((t) => {
     const sec = document.getElementById(`tab-${t}`);
