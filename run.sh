@@ -59,7 +59,10 @@ class Handler(BaseHTTPRequestHandler):
         if p == '/app.js': return self._file(WEB_DIR / 'app.js', 'application/javascript; charset=utf-8')
         if p == '/sw.js': return self._file(WEB_DIR / 'sw.js', 'application/javascript; charset=utf-8')
         if p == '/manifest.webmanifest': return self._file(WEB_DIR / 'manifest.webmanifest', 'application/manifest+json')
-        if p in ('/favicon.ico', '/favicon.svg'): return self._file(WEB_DIR / 'favicon.svg', 'image/svg+xml')
+        if p == '/favicon.ico': return self._file(WEB_DIR / 'favicon.ico', 'image/x-icon')
+        if p == '/favicon.svg': return self._file(WEB_DIR / 'favicon.svg', 'image/svg+xml')
+        if p in ('/favicon-32x32.png', '/favicon-16x16.png', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png'):
+            return self._file(WEB_DIR / Path(p).name, 'image/png')
         if p in ('/images.jpeg', '/images.jpg'): return self._file(WEB_DIR / 'samples' / 'images.jpeg', 'image/jpeg')
         if p.startswith('/uploads/'):
             f = UPLOADS_DIR / Path(p).name

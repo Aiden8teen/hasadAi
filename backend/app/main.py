@@ -808,13 +808,48 @@ def serve_pwa_manifest():
     return FileResponse(str(WEB_DIR / "manifest.webmanifest"), media_type="application/manifest+json")
 
 
-@app.get("/favicon.svg")
 @app.get("/favicon.ico")
-def serve_favicon():
+def serve_favicon_ico():
+    ico = WEB_DIR / "favicon.ico"
+    if ico.exists():
+        return FileResponse(str(ico), media_type="image/x-icon")
     fav = WEB_DIR / "favicon.svg"
     if fav.exists():
         return FileResponse(str(fav), media_type="image/svg+xml")
     return Response(status_code=404)
+
+
+@app.get("/favicon.svg")
+def serve_favicon_svg():
+    fav = WEB_DIR / "favicon.svg"
+    if fav.exists():
+        return FileResponse(str(fav), media_type="image/svg+xml")
+    return Response(status_code=404)
+
+
+@app.get("/favicon-32x32.png")
+def serve_fav_32():
+    return FileResponse(str(WEB_DIR / "favicon-32x32.png"), media_type="image/png")
+
+
+@app.get("/favicon-16x16.png")
+def serve_fav_16():
+    return FileResponse(str(WEB_DIR / "favicon-16x16.png"), media_type="image/png")
+
+
+@app.get("/apple-touch-icon.png")
+def serve_apple_touch():
+    return FileResponse(str(WEB_DIR / "apple-touch-icon.png"), media_type="image/png")
+
+
+@app.get("/icon-192.png")
+def serve_icon_192():
+    return FileResponse(str(WEB_DIR / "icon-192.png"), media_type="image/png")
+
+
+@app.get("/icon-512.png")
+def serve_icon_512():
+    return FileResponse(str(WEB_DIR / "icon-512.png"), media_type="image/png")
 
 
 @app.get("/images.jpeg")
