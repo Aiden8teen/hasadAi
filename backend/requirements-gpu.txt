@@ -1,0 +1,8 @@
+# Full GPU & Local Kaggle Training Dependencies (Requires >= 4 GB RAM)
+-r requirements.txt
+tensorflow>=2.16.0
+ultralytics>=8.2.0
+onnxruntime>=1.17.0
+torch>=2.2.0
+transformers>=4.40.0
+peft>=0.10.0

@@ -37,21 +37,22 @@ GOOGLE_API_KEY = os.environ.get(
 )
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
 
-# Expected drop-in model files in /models
+# Expected drop-in model files in /models (Prioritize lightweight TFLite and ONNX runtimes for < 512MB RAM cloud hosting)
 EFFICIENTNET_CANDIDATES = [
-    MODELS_DIR / "best_plant_efficientnet.keras",
     MODELS_DIR / "plant_disease_efficientnet_fp16.tflite",
+    MODELS_DIR / "best_plant_efficientnet.keras",
     MODELS_DIR / "plant_disease_efficientnet_head_only.keras",
     MODELS_DIR / "best_plant_efficientnet.h5",
 ]
 
 YOLO_CANDIDATES = [
-    MODELS_DIR / "best.pt",
     MODELS_DIR / "best.onnx",
+    MODELS_DIR / "best.pt",
     MODELS_DIR / "yolov9e-seg.pt",
 ]
 
 UNET_CANDIDATES = [
+    MODELS_DIR / "unet_leaf_aug_best.onnx",
     MODELS_DIR / "unet_leaf_aug_best.keras",
     MODELS_DIR / "unet_leaf_aug_best.h5",
 ]

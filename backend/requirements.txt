@@ -1,3 +1,4 @@
+# Hassad AI (حصاد) — Cloud & Production Requirements (Optimized for Free Cloud Tiers < 512 MB RAM)
 fastapi>=0.110.0
 uvicorn[standard]>=0.29.0
 python-multipart>=0.0.9
@@ -6,16 +7,12 @@ python-dotenv>=1.0.1
 numpy>=1.24.0
 pillow>=10.0.0
 opencv-python-headless>=4.8.0
+# Fast, ultra-lightweight neural network runtimes (< 65 MB RAM, no torch/tensorflow bloat)
+onnxruntime>=1.16.0
+tflite-runtime>=2.14.0
 # LangChain & LangGraph + Google AI Studio (Gemini) Agent Orchestration
 langchain>=0.3.0
 langchain-core>=0.3.0
 langchain-google-genai>=2.0.0
 langgraph>=0.2.0
 google-generativeai>=0.8.0
-# Custom Vision & LoRA ML Runtimes (auto-detected when installed & weights exist in ../models/):
-tensorflow>=2.16.0
-ultralytics>=8.2.0
-onnxruntime>=1.17.0
-torch>=2.2.0
-transformers>=4.40.0
-peft>=0.10.0

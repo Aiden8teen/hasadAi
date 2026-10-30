@@ -158,6 +158,7 @@ async def create_diagnosis(
     growth_stage: str = Form("vegetative"),
     crop_hint: Optional[str] = Form(None),
     plot_id: Optional[str] = Form(None),
+    locale: Optional[str] = Form("en"),
     idempotency_key: Optional[str] = Header(None, alias="Idempotency-Key"),
 ) -> Dict[str, Any]:
     conn = get_conn()

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-PORT="${1:-${PORT:-8080}}"
+PORT="${1:-${PORT:-10000}}"
 export PORT
 
 cd "$(dirname "$0")/backend"
@@ -14,7 +14,7 @@ echo "=========================================================="
 
 if python3 -c "import fastapi, uvicorn, cv2" >/dev/null 2>&1; then
   echo "🚀 Launching FastAPI + OpenCV/ML + LangGraph Server on port ${PORT}..."
-  python3 -m uvicorn app.main:app --host 0.0.0.0 --port "${PORT}" --reload
+  python3 -m uvicorn app.main:app --host 0.0.0.0 --port "${PORT}"
 else
   echo "⚡ Launching Hassad AI Standalone + LangGraph Server on port ${PORT}..."
   python3 - << 'PY_SERVER_EOF'

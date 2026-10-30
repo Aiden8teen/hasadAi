@@ -53,22 +53,32 @@ class HierarchicalPlantClassifier:
 
         for candidate in EFFICIENTNET_CANDIDATES:
             if candidate.exists() and candidate.stat().st_size > 1024:
-                try:
-                    import tensorflow as tf
-                    if candidate.suffix == ".tflite":
-                        interpreter = tf.lite.Interpreter(model_path=str(candidate))
+                if candidate.suffix == ".tflite":
+                    try:
+                        try:
+                            from tflite_runtime.interpreter import Interpreter
+                        except ImportError:
+                            try:
+                                from ai_edge_litert.interpreter import Interpreter
+                            except ImportError:
+                                from tensorflow.lite.python.interpreter import Interpreter
+                        interpreter = Interpreter(model_path=str(candidate))
                         interpreter.allocate_tensors()
                         self.tflite_interpreter = interpreter
                         self.active_model_path = candidate.name
                         self.mode = "tflite-fp16"
                         break
-                    else:
+                    except Exception as exc:
+                        print(f"[Classifier] Could not load TFLite model {candidate}: {exc}")
+                else:
+                    try:
+                        import tensorflow as tf
                         self.keras_model = tf.keras.models.load_model(str(candidate), compile=False)
                         self.active_model_path = candidate.name
                         self.mode = "keras-efficientnetb0"
                         break
-                except Exception as exc:
-                    print(f"[Classifier] Could not load {candidate}: {exc}")
+                    except Exception as exc:
+                        print(f"[Classifier] Could not load Keras model {candidate}: {exc}")
 
         return self.status()
 

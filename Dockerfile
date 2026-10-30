@@ -1,14 +1,14 @@
 # ==============================================================================
-# Hassad AI (حصاد) — Production Container for Free Cloud / Hugging Face Spaces
+# Hassad AI (حصاد) — Production Container for Render / Cloud / Hugging Face
 # ==============================================================================
 FROM python:3.10-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PORT=7860
+    PORT=10000
 
-# Install required system libraries for OpenCV and PyTorch
+# Install required lightweight system libraries for OpenCV
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libgl1 \
@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Copy dependency requirements
+# Copy and install cloud-optimized requirements (< 100 MB RAM)
 COPY backend/requirements.txt ./backend/requirements.txt
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r ./backend/requirements.txt
@@ -31,8 +31,10 @@ COPY run.sh ./run.sh
 
 RUN chmod +x ./run.sh
 
-# Default port for Hugging Face Spaces & container hosts
+# Support Render default port 10000, Hugging Face 7860, and general 8080
+EXPOSE 10000
 EXPOSE 7860
+EXPOSE 8080
 
-# Launch Hassad AI (binds to 0.0.0.0 on the dynamic $PORT)
-CMD ["bash", "-c", "./run.sh ${PORT:-7860}"]
+# Launch Hassad AI on the dynamic $PORT (Render sets PORT=10000)
+CMD ["bash", "-c", "./run.sh ${PORT:-10000}"]
