@@ -9,7 +9,7 @@ import cv2
 import numpy as np
 from fastapi import FastAPI, File, Form, Header, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
@@ -48,10 +48,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Serve uploaded leaf photos, generated segmentation masks, and Kaggle evaluation plots
+# Serve uploaded leaf photos, generated segmentation masks, Kaggle evaluation plots, and sample leaf datasets
 app.mount("/uploads", StaticFiles(directory=str(UPLOADS_DIR)), name="uploads")
 app.mount("/masks", StaticFiles(directory=str(MASKS_DIR)), name="masks")
 app.mount("/eval_plots", StaticFiles(directory=str(EVAL_PLOTS_DIR)), name="eval_plots")
+app.mount("/samples", StaticFiles(directory=str(WEB_DIR / "samples")), name="samples")
 
 
 # ==============================================================================
@@ -805,3 +806,21 @@ def serve_pwa_sw():
 @app.get("/manifest.webmanifest")
 def serve_pwa_manifest():
     return FileResponse(str(WEB_DIR / "manifest.webmanifest"), media_type="application/manifest+json")
+
+
+@app.get("/favicon.svg")
+@app.get("/favicon.ico")
+def serve_favicon():
+    fav = WEB_DIR / "favicon.svg"
+    if fav.exists():
+        return FileResponse(str(fav), media_type="image/svg+xml")
+    return Response(status_code=404)
+
+
+@app.get("/images.jpeg")
+@app.get("/images.jpg")
+def serve_root_images():
+    img = WEB_DIR / "samples" / "images.jpeg"
+    if img.exists():
+        return FileResponse(str(img), media_type="image/jpeg")
+    return Response(status_code=404)
