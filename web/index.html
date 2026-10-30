@@ -845,6 +845,10 @@
               <span class="text-[11px] px-2 py-0.5 rounded-full bg-[#07503f] text-white font-medium" data-i18n="preset_badge">100% Kaggle Photos</span>
             </div>
             <div class="flex flex-wrap gap-2">
+              <button onclick="window.loadPresetLeaf('images')" data-class="images" class="btn-pill-sample !bg-[#e8fe85] !text-[#07503f] !border-[#07503f]/50 font-bold shadow-xs">
+                <img src="/samples/images.jpeg" alt="Uploaded Specimen" class="w-6 h-6 rounded-full object-cover border border-[#07503f]/40" />
+                <span>📷 Uploaded Specimen (images.jpeg)</span>
+              </button>
               <button onclick="window.loadPresetLeaf('Tomato___Late_blight')" data-class="Tomato___Late_blight" class="btn-pill-sample">
                 <img src="/samples/Tomato___Late_blight.jpg" alt="Tomato Late Blight" class="w-6 h-6 rounded-full object-cover border border-[#07503f]/20" />
                 <span>Tomato — Late Blight (Mildiou)</span>
@@ -896,18 +900,21 @@
             </div>
           </div>
 
-          <!-- Upload Dropzone -->
-          <label class="block border border-dashed border-[#353535] hover:border-[#07503f] rounded-[20px] p-5 text-center cursor-pointer bg-[#f1efdf]/60 transition">
-            <input type="file" id="leafFileInput" accept="image/*" capture="environment" class="hidden" onchange="window.handleFileSelect(event)" />
+          <!-- Upload Dropzone & Drag-and-Drop Area -->
+          <div id="dropZoneContainer"
+               onclick="document.getElementById('leafFileInput').click()"
+               class="block border-2 border-dashed border-[#353535] hover:border-[#07503f] rounded-[20px] p-5 text-center cursor-pointer bg-[#f1efdf]/60 hover:bg-[#e6ecd5]/30 transition group relative">
+            <input type="file" id="leafFileInput" accept="image/*" class="sr-only" onchange="window.handleFileSelect(event)" />
             <div id="uploadPreviewBox" class="space-y-2 py-4">
-              <div class="w-12 h-12 rounded-full bg-[#e6ecd5] text-[#07503f] mx-auto flex items-center justify-center">
+              <div class="w-12 h-12 rounded-full bg-[#e6ecd5] text-[#07503f] group-hover:bg-[#07503f] group-hover:text-white transition mx-auto flex items-center justify-center">
                 <svg class="w-6 h-6 stroke-current" fill="none" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
               </div>
-              <p class="text-sm font-medium text-[#212529]" data-i18n="drop_prompt">Tap to take a leaf photo or choose a saved picture</p>
-              <p class="text-xs text-[#6d6d6d]" data-i18n="drop_sub">Supports smartphone camera or gallery · Works offline</p>
+              <p class="text-sm font-semibold text-[#212529]" data-i18n="drop_prompt">Tap to take photo, drop file, or choose picture</p>
+              <p class="text-xs text-[#6d6d6d]" data-i18n="drop_sub">Click anywhere here or drag &amp; drop your leaf image</p>
             </div>
-            <img id="uploadPreviewImg" class="hidden max-h-60 mx-auto rounded-[16px] border border-[#c3cda7] object-contain" alt="Selected leaf specimen" />
-          </label>
+            <img id="uploadPreviewImg" class="hidden max-h-60 mx-auto rounded-[16px] border border-[#c3cda7] object-contain shadow-xs" alt="Selected leaf specimen" />
+          </div>
+          <div id="uploadNoticeMsg" class="hidden text-xs py-2 px-3 rounded-xl text-center font-medium"></div>
 
           <!-- Pill Form Inputs (33px Radius) -->
           <div class="space-y-4">

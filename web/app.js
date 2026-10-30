@@ -613,6 +613,18 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
   updateQueueBadge();
   window.switchTab('home', false);
+
+  const dropZone = document.getElementById('dropZoneContainer');
+  if (dropZone) {
+    ['dragenter', 'dragover'].forEach((eventName) => {
+      dropZone.addEventListener(eventName, window.handleDragOver, false);
+    });
+    ['dragleave', 'drop'].forEach((eventName) => {
+      dropZone.addEventListener(eventName, window.handleDragLeave, false);
+    });
+    dropZone.addEventListener('drop', window.handleFileDrop, false);
+  }
+
   await Promise.all([
     loadMlStatus(),
     loadCropsAndDiseases(),
@@ -821,7 +833,7 @@ window.updateSegPreference = async function (pref) {
 };
 
 // ============================================================================
-// 2. Real Field Specimen Loader & File Upload
+// 2. Real Field Specimen Loader & File Upload (with Drag & Drop)
 // ============================================================================
 window.loadPresetLeaf = async function (presetClass, autoRun = true) {
   // Update active pill styling on sample buttons
@@ -833,24 +845,28 @@ window.loadPresetLeaf = async function (presetClass, autoRun = true) {
     }
   });
 
-  const sampleUrl = `/samples/${presetClass}.jpg`;
+  const sampleUrl = presetClass === 'images' ? '/samples/images.jpeg' : `/samples/${presetClass}.jpg`;
   const previewImg = document.getElementById('uploadPreviewImg');
   const previewBox = document.getElementById('uploadPreviewBox');
+  const notice = document.getElementById('uploadNoticeMsg');
+  if (notice) notice.classList.add('hidden');
 
   const allSpecSel = document.getElementById('allSpecimensSelect');
   if (allSpecSel && allSpecSel.value !== presetClass) {
     allSpecSel.value = presetClass;
   }
 
-  previewImg.src = sampleUrl;
-  previewImg.classList.remove('hidden');
-  previewBox.classList.add('hidden');
+  if (previewImg && previewBox) {
+    previewImg.src = sampleUrl;
+    previewImg.classList.remove('hidden');
+    previewBox.classList.add('hidden');
+  }
 
   try {
     const res = await fetch(sampleUrl);
     const blob = await res.blob();
     state.selectedFileBlob = blob;
-    state.selectedFileName = `${presetClass}.jpg`;
+    state.selectedFileName = presetClass === 'images' ? 'images.jpeg' : `${presetClass}.jpg`;
   } catch (err) {
     console.error('Error fetching sample image:', err);
   }
@@ -860,55 +876,93 @@ window.loadPresetLeaf = async function (presetClass, autoRun = true) {
   }
 };
 
-window.handleFileSelect = function (event) {
-  const file = event.target.files[0];
+function processSelectedFile(file) {
   if (!file) return;
   // Clear active state from sample presets
   document.querySelectorAll('.btn-pill-sample').forEach((btn) => {
     btn.classList.remove('btn-pill-sample-active');
   });
   state.selectedFileBlob = file;
-  state.selectedFileName = file.name;
+  state.selectedFileName = file.name || 'uploaded_leaf.jpg';
+
+  const notice = document.getElementById('uploadNoticeMsg');
+  if (notice) notice.classList.add('hidden');
+
   const reader = new FileReader();
   reader.onload = (e) => {
     const previewImg = document.getElementById('uploadPreviewImg');
     const previewBox = document.getElementById('uploadPreviewBox');
-    previewImg.src = e.target.result;
-    previewImg.classList.remove('hidden');
-    previewBox.classList.add('hidden');
+    if (previewImg && previewBox) {
+      previewImg.src = e.target.result;
+      previewImg.classList.remove('hidden');
+      previewBox.classList.add('hidden');
+    }
   };
   reader.readAsDataURL(file);
+}
+
+window.handleFileSelect = function (event) {
+  const file = event.target.files ? event.target.files[0] : null;
+  if (file) {
+    processSelectedFile(file);
+  }
+};
+
+window.handleDragOver = function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const zone = document.getElementById('dropZoneContainer');
+  if (zone) zone.classList.add('border-[#07503f]', 'bg-[#e6ecd5]/60');
+};
+
+window.handleDragLeave = function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const zone = document.getElementById('dropZoneContainer');
+  if (zone) zone.classList.remove('border-[#07503f]', 'bg-[#e6ecd5]/60');
+};
+
+window.handleFileDrop = function (e) {
+  e.preventDefault();
+  e.stopPropagation();
+  const zone = document.getElementById('dropZoneContainer');
+  if (zone) zone.classList.remove('border-[#07503f]', 'bg-[#e6ecd5]/60');
+  const files = e.dataTransfer ? e.dataTransfer.files : null;
+  if (files && files.length > 0) {
+    processSelectedFile(files[0]);
+  }
 };
 
 // ============================================================================
 // 3. Submit 4-Stage Diagnosis
 // ============================================================================
 window.submitDiagnosis = async function () {
+  const notice = document.getElementById('uploadNoticeMsg');
+
   if (!state.selectedFileBlob) {
-    alert('Please select or generate a leaf image first.');
+    const msg = state.locale === 'ar'
+      ? 'يرجى اختيار صورة ورقة أولاً أو الضغط على إحدى العينات بالأعلى'
+      : (state.locale === 'fr' ? 'Veuillez sélectionner ou charger une photo de feuille d’abord.' : 'Please select or upload a leaf photo first.');
+    if (notice) {
+      notice.textContent = msg;
+      notice.className = 'text-xs py-2.5 px-4 rounded-xl text-center font-medium bg-amber-100 text-amber-900 border border-amber-300 block mb-2';
+    } else {
+      alert(msg);
+    }
     return;
   }
 
-  const growthStage = document.getElementById('growthStageInput').value;
-  const cropHint = document.getElementById('cropHintInput').value;
+  if (notice) notice.classList.add('hidden');
 
-  if (state.offlineSim || !navigator.onLine) {
-    enqueueOfflineItem({
-      id: `mut_${Date.now()}`,
-      entity_type: 'diagnosis_photo',
-      filename: state.selectedFileName,
-      growth_stage: growthStage,
-      crop_hint: cropHint,
-      created_at: new Date().toISOString(),
-    });
-    alert('Saved to Offline Mutation Queue! It will automatically run when you switch back to Online Mode.');
-    return;
-  }
+  const growthStage = document.getElementById('growthStageInput')?.value || 'vegetative';
+  const cropHint = document.getElementById('cropHintInput')?.value || '';
 
   const btn = document.getElementById('runDiagnosisBtn');
-  const origHtml = btn.innerHTML;
-  btn.disabled = true;
-  btn.innerHTML = '<span>Examining leaf &amp; identifying treatment...</span>';
+  const origHtml = btn ? btn.innerHTML : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<span class="flex items-center justify-center gap-2"><svg class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg> <span>Examining leaf &amp; identifying treatment...</span></span>';
+  }
 
   try {
     const formData = new FormData();
@@ -922,6 +976,12 @@ window.submitDiagnosis = async function () {
       headers: { 'Idempotency-Key': `diag_${Date.now()}` },
       body: formData,
     });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`Server returned HTTP ${res.status}: ${errText}`);
+    }
+
     const data = await res.json();
     state.currentDiagnosis = data;
     renderActiveDiagnosis(data);
@@ -929,7 +989,7 @@ window.submitDiagnosis = async function () {
 
     const activeCard = document.getElementById('activeDiagnosisCard');
     if (activeCard && !activeCard.classList.contains('hidden')) {
-      const headerOffset = 56;
+      const headerOffset = 64;
       const elementPosition = activeCard.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
       window.scrollTo({
@@ -939,9 +999,15 @@ window.submitDiagnosis = async function () {
     }
   } catch (err) {
     console.error('Diagnosis error:', err);
+    if (notice) {
+      notice.textContent = `Diagnosis request failed: ${err.message || 'Network error'}. Please check your server.`;
+      notice.className = 'text-xs py-2.5 px-4 rounded-xl text-center font-medium bg-rose-100 text-rose-900 border border-rose-300 block mb-2';
+    }
   } finally {
-    btn.disabled = false;
-    btn.innerHTML = origHtml;
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = origHtml;
+    }
   }
 };
 

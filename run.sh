@@ -49,6 +49,9 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(data)
 
+    def do_HEAD(self):
+        self.do_GET()
+
     def do_GET(self):
         parsed = urllib.parse.urlparse(self.path)
         p = urllib.parse.unquote(parsed.path)
@@ -57,6 +60,7 @@ class Handler(BaseHTTPRequestHandler):
         if p == '/sw.js': return self._file(WEB_DIR / 'sw.js', 'application/javascript; charset=utf-8')
         if p == '/manifest.webmanifest': return self._file(WEB_DIR / 'manifest.webmanifest', 'application/manifest+json')
         if p in ('/favicon.ico', '/favicon.svg'): return self._file(WEB_DIR / 'favicon.svg', 'image/svg+xml')
+        if p in ('/images.jpeg', '/images.jpg'): return self._file(WEB_DIR / 'samples' / 'images.jpeg', 'image/jpeg')
         if p.startswith('/uploads/'):
             f = UPLOADS_DIR / Path(p).name
             return self._file(f, 'image/svg+xml' if f.suffix=='.svg' else 'image/jpeg')
